@@ -5,7 +5,6 @@
 'apache': "httpd"
 'packages': [
                 "php53",
-                "php-pecl-apc",
                 "php53-gd",
                 "php53-mysql",
                 "php53-xml",
