@@ -28,13 +28,13 @@
 
 - name: Determine if mysql client package exist on Redhat system base version 5
   command: /bin/rpm -q mysql
-  register: mysql-client_found
+  register: mysqlclient_found
   when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '5'
   ignore_errors: yes
 
 - name: Erase mysql client with no deps
   command: rpm -e --nodeps mysql
-  when: mysql-client_found is defined and mysql-client_found.rc == 0
+  when: mysqlclient_found is defined and mysqlclient_found.rc == 0
 
 #- name: Remove mysql client from Redhat base 5
 #  yum: name=mysql state=absent
