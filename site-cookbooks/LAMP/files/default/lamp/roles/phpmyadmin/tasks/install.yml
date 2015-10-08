@@ -16,9 +16,11 @@
 
 - name: Run htpasswd command
   shell: htpasswd -b -c /etc/{{phpmyadmin_name}}/phpmyadmin-htpasswd {{htuser}} {{htpass}}
+  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version != '5'
 
 - name: Adding ~/.phpmyadmin
   template: src=dotphpmyadminpass.j2 dest=/root/.phpmyadminpass
+  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version != '5'
 
 - name: Adding PMAs apache.conf and config.inc.php files
   template: src={{item.src}} dest={{item.dest}}
@@ -26,11 +28,14 @@
     - { src: '{{ansible_os_family}}_apache.conf.j2', dest: '/etc/{{phpmyadmin_name}}/apache.conf' }
     - { src: '{{ansible_os_family}}_config.inc.php.j2', dest: '/etc/{{phpmyadmin_name}}/config.inc.php' }
   notify: restart apache
+  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version != '5'
 
 - name: Remove static apache.conf file.
   file: dest={{apache_conf_path}}/{{phpmyadmin_name}}.conf state=absent
+  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version != '5'
 
 - name: Symlink for apache.conf
   file: src=/etc/{{phpmyadmin_name}}/apache.conf dest={{apache_conf_path}}/{{phpmyadmin_name}}.conf state=link
   notify: restart apache
+  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version != '5'
 
