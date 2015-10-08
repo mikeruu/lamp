@@ -18,6 +18,11 @@
       when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
       tags: [ 'ius-repos', 'apache2', 'php5', 'mysql', 'phpmyadmin', 'holland' ]
 
+  pre_tasks:
+    - include_vars: group_vars/RHEL_5.yml
+      when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '5'
+      tags: [ 'ius-repos', 'apache2', 'php5', 'mysql', 'phpmyadmin', 'holland' ]
+
   roles:
     - { role: IUS-repos, tags: [ ius-repos, apache2, php5, mysql ] }
     - { role: apache2, tags: apache2 }
